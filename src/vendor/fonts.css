@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "InterTight-Regular";
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+  src: url("./fonts/InterTight-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "InterTight-SemiBold";
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+  src: url("./fonts/InterTight-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-Regular";
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+  src: url("./fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-Bold";
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+  src: url("./fonts/Poppins-Bold.ttf") format("truetype");
+}

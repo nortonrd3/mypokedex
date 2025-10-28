@@ -1,0 +1,37 @@
+<!-- Save this as favicon.svg (transparent background) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Pokeball icon">
+  <defs>
+    <!-- Left (dark blue) to right (cyan) gradient -->
+    <linearGradient id="g1" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#0b4a6f"/>
+      <stop offset="100%" stop-color="#2fe0d6"/>
+    </linearGradient>
+
+    <!-- Slight inner shading to give subtle depth -->
+    <radialGradient id="g2" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Outer circle with gradient fill and dark stroke -->
+  <circle cx="128" cy="128" r="98" fill="url(#g1)" stroke="#0b3350" stroke-width="14" />
+
+  <!-- subtle overlay for depth (transparent) -->
+  <circle cx="128" cy="128" r="88" fill="url(#g2)" opacity="0.25" />
+
+  <!-- horizontal band across center -->
+  <rect x="34" y="118" width="188" height="20" fill="#0b3350" rx="2" ry="2" />
+
+  <!-- inner ring around central button -->
+  <circle cx="128" cy="128" r="28" fill="#e6f8fb" stroke="#0b3350" stroke-width="12" />
+
+  <!-- central button (solid dark center) -->
+  <circle cx="128" cy="128" r="12" fill="#0b3350" />
+
+  <!-- Small outer cut where band meets inner ring (gives the classic Poké-ball gap feel) -->
+  <!-- create small cutouts by drawing white-ish rounded shapes to make the band appear behind the ring -->
+  <path d="M96 118 a32 32 0 0 1 64 0" fill="#e6f8fb" opacity="0.0" />
+
+  <!-- The SVG has no background rectangle so it remains transparent -->
+</svg>
