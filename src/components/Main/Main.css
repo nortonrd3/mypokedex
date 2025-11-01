@@ -1,0 +1,78 @@
+.main {
+  flex: 1;
+  padding: 3rem 2rem;
+  background: radial-gradient(
+    ellipse at center,
+    #e6f2ff 0%,
+    #e6f2ff 40%,
+    #ffffff 85%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.main__title {
+  font-family: "InterTight-Bold", "Helvetica Neue", sans-serif;
+  font-size: 3.5rem;
+  margin: 0 0 1rem 0;
+  background: linear-gradient(90deg, #007bff 0%, #00bcd4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.main__subtitle {
+  font-family: "Poppins-Regular", "Helvetica Neue", sans-serif;
+  font-size: 1.25rem;
+  color: #666;
+  margin: 0;
+  max-width: 500px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 2rem 1rem;
+  }
+
+  .main__title {
+    font-size: 2.5rem;
+  }
+
+  .main__subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .main__hero {
+    margin-bottom: 2rem;
+  }
+
+  .main__title {
+    font-size: 2rem;
+  }
+
+  .main__subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .main__title {
+    font-size: 1.75rem;
+  }
+
+  .main__subtitle {
+    font-size: 0.9rem;
+  }
+}
