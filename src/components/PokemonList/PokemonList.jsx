@@ -1,11 +1,12 @@
 import "./PokemonList.css";
 import PokemonCard from "../PokemonCard/PokemonCard";
+import Preloader from "../Preloader/Preloader";
 
 function PokemonList({ pokemon, isLoading }) {
   if (isLoading) {
     return (
       <div className="pokemon-list">
-        <p className="pokemon-list__loading">Loading Pokémon...</p>
+        <Preloader />
       </div>
     );
   }
