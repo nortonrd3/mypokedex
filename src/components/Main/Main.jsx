@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import PokemonList from "../PokemonList/PokemonList";
+import { getRandomPokemon, searchPokemon } from "../../utils/PokeApi";
 import "./Main.css";
 
 function Main() {
@@ -11,42 +12,18 @@ function Main() {
 
   // Fetch 20 random Pokemon on mount
   useEffect(() => {
-    const fetchRandomPokemon = () => {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      const randomIds = Array.from(
-        { length: 20 },
-        () => Math.floor(Math.random() * 898) + 1
-      );
-
-      const promises = randomIds.map((id) =>
-        fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then((res) =>
-          res.json()
-        )
-      );
-
-      Promise.all(promises)
-        .then((results) => {
-          const pokemonData = results.map((data) => ({
-            id: data.id,
-            name: data.name,
-            image: data.sprites.other["official-artwork"].front_default,
-            type: data.types[0].type.name,
-            height: (data.height / 10).toFixed(1), // Convert to meters
-            weight: (data.weight / 10).toFixed(1), // Convert to kg
-          }));
-
-          setAllPokemon(pokemonData);
-          setDisplayedPokemon(pokemonData);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching Pokemon:", error);
-          setIsLoading(false);
-        });
-    };
-
-    fetchRandomPokemon();
+    getRandomPokemon(20)
+      .then((pokemonData) => {
+        setAllPokemon(pokemonData);
+        setDisplayedPokemon(pokemonData);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching Pokemon:", error);
+        setIsLoading(false);
+      });
   }, []);
 
   const handleSearch = (query) => {
@@ -59,23 +36,8 @@ function Main() {
 
     setIsLoading(true);
 
-    fetch(`https://pokeapi.co/api/v2/pokemon/${query.toLowerCase()}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Pokemon not found");
-        }
-      })
-      .then((data) => {
-        const pokemon = {
-          id: data.id,
-          name: data.name,
-          image: data.sprites.other["official-artwork"].front_default,
-          type: data.types[0].type.name,
-          height: (data.height / 10).toFixed(1),
-          weight: (data.weight / 10).toFixed(1),
-        };
+    searchPokemon(query)
+      .then((pokemon) => {
         setDisplayedPokemon([pokemon]);
         setIsLoading(false);
       })
