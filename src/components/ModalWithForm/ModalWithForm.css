@@ -170,12 +170,11 @@
   margin-top: 1rem;
   background: none;
   border: none;
-  color: #007bff;
+  color: #1da9e9;
   font-family: "InterTight-Regular", "Helvetica Neue", sans-serif;
   font-size: 0.9rem;
   cursor: pointer;
   transition: color 0.2s ease;
-  text-decoration: underline;
 }
 
 .modal__link:hover {
