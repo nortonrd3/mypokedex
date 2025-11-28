@@ -1,6 +1,19 @@
 import "./PokemonCard.css";
+import heartInactive from "../../assets/like-inactive.svg";
+import heartActive from "../../assets/like-active.svg";
 
-function PokemonCard({ number, name, image, type, height, weight }) {
+function PokemonCard({
+  number,
+  name,
+  image,
+  type,
+  height,
+  weight,
+  isSignedIn = false,
+  isLiked = false,
+  onAddClick,
+  onLikeClick,
+}) {
   // Type color mapping
   const typeColors = {
     normal: "#A8A878",
@@ -53,6 +66,29 @@ function PokemonCard({ number, name, image, type, height, weight }) {
             <span className="pokemon-card__value">{weight} kg</span>
           </div>
         </div>
+
+        {isSignedIn && (
+          <div className="pokemon-card__actions">
+            <button
+              className="pokemon-card__add-button"
+              onClick={onAddClick}
+              aria-label={`Add ${name} to collection`}
+            >
+              + Add
+            </button>
+            <button
+              className="pokemon-card__like-button"
+              onClick={onLikeClick}
+              aria-label={`${isLiked ? "Unlike" : "Like"} ${name}`}
+            >
+              <img
+                src={isLiked ? heartActive : heartInactive}
+                alt={isLiked ? "Liked" : "Not liked"}
+                className="pokemon-card__like-icon"
+              />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

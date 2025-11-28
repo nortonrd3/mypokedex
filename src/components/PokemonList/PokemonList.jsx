@@ -2,7 +2,13 @@ import "./PokemonList.css";
 import PokemonCard from "../PokemonCard/PokemonCard";
 import Preloader from "../Preloader/Preloader";
 
-function PokemonList({ pokemon, isLoading }) {
+function PokemonList({
+  pokemon,
+  isLoading,
+  isSignedIn,
+  onAddClick,
+  onLikeClick,
+}) {
   if (isLoading) {
     return (
       <div className="pokemon-list">
@@ -33,6 +39,10 @@ function PokemonList({ pokemon, isLoading }) {
             type={poke.type}
             height={poke.height}
             weight={poke.weight}
+            isSignedIn={isSignedIn}
+            isLiked={poke.isLiked || false}
+            onAddClick={() => onAddClick(poke)}
+            onLikeClick={() => onLikeClick(poke)}
           />
         ))}
       </div>

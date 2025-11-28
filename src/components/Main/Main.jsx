@@ -4,7 +4,7 @@ import PokemonList from "../PokemonList/PokemonList";
 import { getRandomPokemon, searchPokemon } from "../../utils/PokeApi";
 import "./Main.css";
 
-function Main() {
+function Main({ isSignedIn, onAddClick, onLikeClick }) {
   const [allPokemon, setAllPokemon] = useState([]);
   const [displayedPokemon, setDisplayedPokemon] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +59,13 @@ function Main() {
           <SearchBar size="large" onSearch={handleSearch} />
         </div>
       </section>
-      <PokemonList pokemon={displayedPokemon} isLoading={isLoading} />
+      <PokemonList
+        pokemon={displayedPokemon}
+        isLoading={isLoading}
+        isSignedIn={isSignedIn}
+        onAddClick={onAddClick}
+        onLikeClick={onLikeClick}
+      />
     </main>
   );
 }

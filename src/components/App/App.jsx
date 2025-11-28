@@ -8,9 +8,9 @@ import "./App.css";
 
 function App() {
   // For testing - can toggle this
-  const isSignedIn = false;
+  const isSignedIn = true; // Changed to true to see the buttons
   const userEmail = "user@example.com";
-  const [activeModal, setActiveModal] = useState(null); // null, 'login', or 'register'
+  const [activeModal, setActiveModal] = useState(null);
 
   const handleCloseModal = () => {
     setActiveModal(null);
@@ -28,6 +28,16 @@ function App() {
     setActiveModal("login");
   };
 
+  const handleAddPokemon = (pokemon) => {
+    console.log("Adding pokemon to collection:", pokemon);
+    // Will implement collection logic later
+  };
+
+  const handleLikePokemon = (pokemon) => {
+    console.log("Toggling like for pokemon:", pokemon);
+    // Will implement like logic later
+  };
+
   return (
     <div className="app">
       <Header
@@ -35,7 +45,11 @@ function App() {
         userEmail={userEmail}
         onSignInClick={handleSignInClick}
       />
-      <Main />
+      <Main
+        isSignedIn={isSignedIn}
+        onAddClick={handleAddPokemon}
+        onLikeClick={handleLikePokemon}
+      />
       <Footer />
       <LoginModal
         isOpen={activeModal === "login"}
