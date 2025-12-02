@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -7,14 +7,56 @@ import Footer from "../Footer/Footer";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Preloader from "../Preloader/Preloader";
+import { authorize, register, checkToken, signOut } from "../../utils/auth";
+import {
+  getCollection,
+  addToCollection,
+  removeFromCollection,
+  toggleLike,
+  clearCollection,
+} from "../../utils/collectionApi";
 import "./App.css";
 
 function App() {
-  const [isSignedIn, setIsSignedIn] = useState(true);
-  const [userEmail, setUserEmail] = useState("user@example.com");
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [collectedPokemon, setCollectedPokemon] = useState([]);
   const [likedPokemonIds, setLikedPokemonIds] = useState(new Set());
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check for existing token on mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      checkToken(token)
+        .then((user) => {
+          setIsSignedIn(true);
+          setUserEmail(user.email);
+          setCurrentUser(user);
+
+          // Load user's collection
+          return getCollection();
+        })
+        .then((data) => {
+          setCollectedPokemon(data.collection);
+          setLikedPokemonIds(new Set(data.likedIds));
+        })
+        .catch((err) => {
+          console.error("Token validation failed:", err);
+          localStorage.removeItem("token");
+          localStorage.removeItem("userData");
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
 
   const handleCloseModal = () => {
     setActiveModal(null);
@@ -31,40 +73,88 @@ function App() {
   const handleSignInClick = () => {
     if (isSignedIn) {
       // Handle sign out
-      setIsSignedIn(false);
-      setUserEmail("");
-      setCollectedPokemon([]);
-      setLikedPokemonIds(new Set());
+      signOut()
+        .then(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userData");
+          setIsSignedIn(false);
+          setUserEmail("");
+          setCurrentUser(null);
+
+          // Clear collection from backend
+          return clearCollection();
+        })
+        .then(() => {
+          setCollectedPokemon([]);
+          setLikedPokemonIds(new Set());
+        })
+        .catch((err) => {
+          console.error("Sign out error:", err);
+        });
     } else {
       setActiveModal("login");
     }
   };
 
-  const handleLogin = (email) => {
-    setIsSignedIn(true);
-    setUserEmail(email);
-    handleCloseModal();
+  const handleLogin = (email, password) => {
+    authorize(email, password)
+      .then((response) => {
+        localStorage.setItem("token", response.token);
+        setIsSignedIn(true);
+        setUserEmail(response.user.email);
+        setCurrentUser(response.user);
+        handleCloseModal();
+
+        // Load user's collection
+        return getCollection();
+      })
+      .then((data) => {
+        setCollectedPokemon(data.collection);
+        setLikedPokemonIds(new Set(data.likedIds));
+      })
+      .catch((err) => {
+        console.error("Login error:", err);
+        alert(err.message || "Login failed");
+      });
   };
 
-  const handleRegister = (email) => {
-    setIsSignedIn(true);
-    setUserEmail(email);
-    handleCloseModal();
+  const handleRegister = (email, password) => {
+    register(email, password)
+      .then((response) => {
+        localStorage.setItem("token", response.token);
+        setIsSignedIn(true);
+        setUserEmail(response.user.email);
+        setCurrentUser(response.user);
+        handleCloseModal();
+      })
+      .catch((err) => {
+        console.error("Registration error:", err);
+        alert(err.message || "Registration failed");
+      });
   };
 
   const handleAddPokemon = (pokemon) => {
-    const isAlreadyAdded = collectedPokemon.some((p) => p.id === pokemon.id);
-
-    if (!isAlreadyAdded) {
-      setCollectedPokemon([
-        ...collectedPokemon,
-        { ...pokemon, isLiked: likedPokemonIds.has(pokemon.id) },
-      ]);
-    }
+    addToCollection(pokemon)
+      .then((savedPokemon) => {
+        setCollectedPokemon([...collectedPokemon, savedPokemon]);
+        console.log("Pokemon added to collection:", savedPokemon);
+      })
+      .catch((err) => {
+        console.error("Error adding Pokemon:", err);
+      });
   };
 
   const handleRemovePokemon = (pokemon) => {
-    setCollectedPokemon(collectedPokemon.filter((p) => p.id !== pokemon.id));
+    removeFromCollection(pokemon.id)
+      .then((response) => {
+        setCollectedPokemon(
+          collectedPokemon.filter((p) => p.id !== pokemon.id)
+        );
+        console.log("Pokemon removed:", response);
+      })
+      .catch((err) => {
+        console.error("Error removing Pokemon:", err);
+      });
   };
 
   const handleTogglePokemon = (pokemon) => {
@@ -78,23 +168,31 @@ function App() {
   };
 
   const handleLikePokemon = (pokemon) => {
-    const newLikedIds = new Set(likedPokemonIds);
+    toggleLike(pokemon.id)
+      .then((response) => {
+        setLikedPokemonIds(new Set(response.likedIds));
 
-    if (newLikedIds.has(pokemon.id)) {
-      newLikedIds.delete(pokemon.id);
-    } else {
-      newLikedIds.add(pokemon.id);
-    }
+        // Update collection if Pokemon is in it
+        setCollectedPokemon(
+          collectedPokemon.map((p) =>
+            p.id === pokemon.id ? { ...p, isLiked: response.isLiked } : p
+          )
+        );
 
-    setLikedPokemonIds(newLikedIds);
-
-    // Also update the collection if Pokemon is in it
-    setCollectedPokemon(
-      collectedPokemon.map((p) =>
-        p.id === pokemon.id ? { ...p, isLiked: newLikedIds.has(pokemon.id) } : p
-      )
-    );
+        console.log("Like toggled:", response);
+      })
+      .catch((err) => {
+        console.error("Error toggling like:", err);
+      });
   };
+
+  if (isLoading) {
+    return (
+      <div className="app app--loading">
+        <Preloader />
+      </div>
+    );
+  }
 
   return (
     <Router>

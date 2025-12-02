@@ -16,9 +16,7 @@ function LoginModal({ isOpen, onClose, onRegisterClick, onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login:", { email, password });
-    // Call the onLogin handler passed from App
-    onLogin(email);
+    onLogin(email, password);
   };
 
   return (

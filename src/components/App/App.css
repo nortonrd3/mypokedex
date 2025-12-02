@@ -3,3 +3,14 @@
   display: flex;
   flex-direction: column;
 }
+
+.app--loading {
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+    ellipse at center,
+    #e6f2ff 0%,
+    #e6f2ff 40%,
+    #ffffff 85%
+  );
+}

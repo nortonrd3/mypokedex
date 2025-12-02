@@ -16,9 +16,8 @@ function RegisterModal({ isOpen, onClose, onLoginClick, onRegister }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Register:", { email, password });
     // Call the onRegister handler passed from App
-    onRegister(email);
+    onRegister(email, password);
   };
 
   return (
