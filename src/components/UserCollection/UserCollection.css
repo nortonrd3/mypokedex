@@ -1,6 +1,6 @@
 .user-collection {
   width: 100%;
-  max-width: 1400px;
+  max-width: 1600px;
   padding: 0 1rem 2rem 1rem;
 }
 
@@ -160,5 +160,11 @@
 
   .user-collection__empty-subtext {
     font-size: 0.8125rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  .user-collection {
+    max-width: 1800px;
   }
 }
