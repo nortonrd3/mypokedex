@@ -89,7 +89,28 @@
   opacity: 1;
 }
 
-/* Responsive - matches Header breakpoints */
+@media (max-width: 840px) {
+  .navigation {
+    gap: 0.75rem;
+  }
+
+  .navigation__logo {
+    font-size: 1.35rem;
+  }
+
+  .navigation__button {
+    padding: 0.625rem 1rem;
+    font-size: 15px;
+    min-width: 70px;
+    height: 40px;
+  }
+
+  .navigation__button-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
 @media (max-width: 720px) {
   .navigation__button--collection span {
     display: none;

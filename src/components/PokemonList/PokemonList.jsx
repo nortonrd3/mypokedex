@@ -6,6 +6,7 @@ function PokemonList({
   pokemon,
   isLoading,
   isSignedIn,
+  collectedPokemonIds = [],
   onAddClick,
   onLikeClick,
 }) {
@@ -36,10 +37,11 @@ function PokemonList({
             number={poke.id.toString().padStart(3, "0")}
             name={poke.name}
             image={poke.image}
-            type={poke.type}
+            types={poke.types}
             height={poke.height}
             weight={poke.weight}
             isSignedIn={isSignedIn}
+            isInCollection={collectedPokemonIds.includes(poke.id)}
             isLiked={poke.isLiked || false}
             onAddClick={() => onAddClick(poke)}
             onLikeClick={() => onLikeClick(poke)}

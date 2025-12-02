@@ -1,16 +1,18 @@
 import { useState } from "react";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
+import UserCollection from "../UserCollection/UserCollection";
 import Footer from "../Footer/Footer";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import "./App.css";
 
 function App() {
-  // For testing - can toggle this
-  const isSignedIn = true; // Changed to true to see the buttons
+  const isSignedIn = true;
   const userEmail = "user@example.com";
   const [activeModal, setActiveModal] = useState(null);
+  const [currentView, setCurrentView] = useState("home");
+  const [collectedPokemon, setCollectedPokemon] = useState([]);
 
   const handleCloseModal = () => {
     setActiveModal(null);
@@ -29,13 +31,49 @@ function App() {
   };
 
   const handleAddPokemon = (pokemon) => {
-    console.log("Adding pokemon to collection:", pokemon);
-    // Will implement collection logic later
+    const isAlreadyAdded = collectedPokemon.some((p) => p.id === pokemon.id);
+
+    if (!isAlreadyAdded) {
+      setCollectedPokemon([
+        ...collectedPokemon,
+        { ...pokemon, isLiked: false },
+      ]);
+      console.log("Adding pokemon to collection:", pokemon);
+    } else {
+      console.log("Pokemon already in collection");
+    }
+  };
+
+  const handleRemovePokemon = (pokemon) => {
+    setCollectedPokemon(collectedPokemon.filter((p) => p.id !== pokemon.id));
+    console.log("Removing pokemon from collection:", pokemon);
+  };
+
+  const handleTogglePokemon = (pokemon) => {
+    const isInCollection = collectedPokemon.some((p) => p.id === pokemon.id);
+
+    if (isInCollection) {
+      handleRemovePokemon(pokemon);
+    } else {
+      handleAddPokemon(pokemon);
+    }
   };
 
   const handleLikePokemon = (pokemon) => {
+    setCollectedPokemon(
+      collectedPokemon.map((p) =>
+        p.id === pokemon.id ? { ...p, isLiked: !p.isLiked } : p
+      )
+    );
     console.log("Toggling like for pokemon:", pokemon);
-    // Will implement like logic later
+  };
+
+  const handleNavigateToHome = () => {
+    setCurrentView("home");
+  };
+
+  const handleNavigateToCollection = () => {
+    setCurrentView("collection");
   };
 
   return (
@@ -44,12 +82,26 @@ function App() {
         isSignedIn={isSignedIn}
         userEmail={userEmail}
         onSignInClick={handleSignInClick}
+        onHomeClick={handleNavigateToHome}
+        onCollectionClick={handleNavigateToCollection}
       />
-      <Main
-        isSignedIn={isSignedIn}
-        onAddClick={handleAddPokemon}
-        onLikeClick={handleLikePokemon}
-      />
+
+      {currentView === "home" ? (
+        <Main
+          isSignedIn={isSignedIn}
+          collectedPokemonIds={collectedPokemon.map((p) => p.id)}
+          onAddClick={handleTogglePokemon}
+          onLikeClick={handleLikePokemon}
+        />
+      ) : (
+        <UserCollection
+          collectedPokemon={collectedPokemon}
+          isSignedIn={isSignedIn}
+          onRemoveClick={handleRemovePokemon}
+          onLikeClick={handleLikePokemon}
+        />
+      )}
+
       <Footer />
       <LoginModal
         isOpen={activeModal === "login"}

@@ -67,6 +67,23 @@
   text-transform: capitalize;
 }
 
+.pokemon-card__types {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pokemon-card__type {
+  display: inline-block;
+  color: white;
+  font-family: "InterTight-SemiBold", "Helvetica Neue", sans-serif;
+  font-size: 0.875rem;
+  padding: 0.375rem 1rem;
+  border-radius: 16px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
 .pokemon-card__type {
   display: inline-block;
   color: white;
@@ -149,6 +166,14 @@
 
 .pokemon-card__add-button:hover::before {
   opacity: 1;
+}
+
+.pokemon-card__add-button--remove {
+  background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+}
+
+.pokemon-card__add-button--remove::before {
+  background: linear-gradient(90deg, #bd2130 0%, #a71d2a 100%);
 }
 
 .pokemon-card__like-button {

@@ -6,7 +6,7 @@ function processPokemonData(data) {
     id: data.id,
     name: data.name,
     image: data.sprites.other["official-artwork"].front_default,
-    type: data.types[0].type.name,
+    types: data.types.map((t) => t.type.name), // array of all types
     height: (data.height / 10).toFixed(1), // Convert to meters
     weight: (data.weight / 10).toFixed(1), // Convert to kg
   };

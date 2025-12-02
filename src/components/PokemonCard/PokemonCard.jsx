@@ -6,15 +6,15 @@ function PokemonCard({
   number,
   name,
   image,
-  type,
+  types,
   height,
   weight,
   isSignedIn = false,
+  isInCollection = false,
   isLiked = false,
   onAddClick,
   onLikeClick,
 }) {
-  // Type color mapping
   const typeColors = {
     normal: "#A8A878",
     fire: "#F08030",
@@ -36,8 +36,6 @@ function PokemonCard({
     fairy: "#EE99AC",
   };
 
-  const typeColor = typeColors[type?.toLowerCase()] || "#777";
-
   return (
     <div className="pokemon-card">
       <span className="pokemon-card__number">#{number}</span>
@@ -49,12 +47,19 @@ function PokemonCard({
       <div className="pokemon-card__stats">
         <h3 className="pokemon-card__name">{name}</h3>
 
-        <span
-          className="pokemon-card__type"
-          style={{ backgroundColor: typeColor }}
-        >
-          {type}
-        </span>
+        <div className="pokemon-card__types">
+          {types.map((type) => (
+            <span
+              key={type}
+              className="pokemon-card__type"
+              style={{
+                backgroundColor: typeColors[type.toLowerCase()] || "#777",
+              }}
+            >
+              {type}
+            </span>
+          ))}
+        </div>
 
         <div className="pokemon-card__measurements">
           <div className="pokemon-card__measurement">
@@ -70,11 +75,17 @@ function PokemonCard({
         {isSignedIn && (
           <div className="pokemon-card__actions">
             <button
-              className="pokemon-card__add-button"
+              className={`pokemon-card__add-button ${
+                isInCollection ? "pokemon-card__add-button--remove" : ""
+              }`}
               onClick={onAddClick}
-              aria-label={`Add ${name} to collection`}
+              aria-label={
+                isInCollection
+                  ? `Remove ${name} from collection`
+                  : `Add ${name} to collection`
+              }
             >
-              + Add
+              {isInCollection ? "Remove" : "+ Add"}
             </button>
             <button
               className="pokemon-card__like-button"
