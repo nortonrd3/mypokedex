@@ -5,7 +5,9 @@ import collectionIcon from "../../assets/collection-icon.svg";
 function Navigation({ isSignedIn = false, onHomeClick, onCollectionClick }) {
   return (
     <nav className="navigation">
-      <h1 className="navigation__logo">myPokédex</h1>
+      <h1 className="navigation__logo" onClick={onHomeClick}>
+        myPokédex
+      </h1>
       <button className="navigation__button" onClick={onHomeClick}>
         <img src={homeIcon} alt="Home" className="navigation__button-icon" />
         <span>Home</span>

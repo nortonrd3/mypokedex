@@ -7,6 +7,7 @@ function PokemonList({
   isLoading,
   isSignedIn,
   collectedPokemonIds = [],
+  likedPokemonIds = new Set(),
   onAddClick,
   onLikeClick,
 }) {
@@ -31,9 +32,9 @@ function PokemonList({
   return (
     <div className="pokemon-list">
       <div className="pokemon-list__grid">
-        {pokemon.map((poke) => (
+        {pokemon.map((poke, index) => (
           <PokemonCard
-            key={poke.id}
+            key={`${poke.id}-${index}`}
             number={poke.id.toString().padStart(3, "0")}
             name={poke.name}
             image={poke.image}
@@ -42,7 +43,11 @@ function PokemonList({
             weight={poke.weight}
             isSignedIn={isSignedIn}
             isInCollection={collectedPokemonIds.includes(poke.id)}
-            isLiked={poke.isLiked || false}
+            isLiked={
+              poke.isLiked !== undefined
+                ? poke.isLiked
+                : likedPokemonIds.has(poke.id)
+            }
             onAddClick={() => onAddClick(poke)}
             onLikeClick={() => onLikeClick(poke)}
           />

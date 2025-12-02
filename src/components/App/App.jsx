@@ -1,18 +1,20 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import UserCollection from "../UserCollection/UserCollection";
 import Footer from "../Footer/Footer";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import "./App.css";
 
 function App() {
-  const isSignedIn = true;
-  const userEmail = "user@example.com";
+  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [userEmail, setUserEmail] = useState("user@example.com");
   const [activeModal, setActiveModal] = useState(null);
-  const [currentView, setCurrentView] = useState("home");
   const [collectedPokemon, setCollectedPokemon] = useState([]);
+  const [likedPokemonIds, setLikedPokemonIds] = useState(new Set());
 
   const handleCloseModal = () => {
     setActiveModal(null);
@@ -27,7 +29,27 @@ function App() {
   };
 
   const handleSignInClick = () => {
-    setActiveModal("login");
+    if (isSignedIn) {
+      // Handle sign out
+      setIsSignedIn(false);
+      setUserEmail("");
+      setCollectedPokemon([]);
+      setLikedPokemonIds(new Set());
+    } else {
+      setActiveModal("login");
+    }
+  };
+
+  const handleLogin = (email) => {
+    setIsSignedIn(true);
+    setUserEmail(email);
+    handleCloseModal();
+  };
+
+  const handleRegister = (email) => {
+    setIsSignedIn(true);
+    setUserEmail(email);
+    handleCloseModal();
   };
 
   const handleAddPokemon = (pokemon) => {
@@ -36,17 +58,13 @@ function App() {
     if (!isAlreadyAdded) {
       setCollectedPokemon([
         ...collectedPokemon,
-        { ...pokemon, isLiked: false },
+        { ...pokemon, isLiked: likedPokemonIds.has(pokemon.id) },
       ]);
-      console.log("Adding pokemon to collection:", pokemon);
-    } else {
-      console.log("Pokemon already in collection");
     }
   };
 
   const handleRemovePokemon = (pokemon) => {
     setCollectedPokemon(collectedPokemon.filter((p) => p.id !== pokemon.id));
-    console.log("Removing pokemon from collection:", pokemon);
   };
 
   const handleTogglePokemon = (pokemon) => {
@@ -60,60 +78,77 @@ function App() {
   };
 
   const handleLikePokemon = (pokemon) => {
+    const newLikedIds = new Set(likedPokemonIds);
+
+    if (newLikedIds.has(pokemon.id)) {
+      newLikedIds.delete(pokemon.id);
+    } else {
+      newLikedIds.add(pokemon.id);
+    }
+
+    setLikedPokemonIds(newLikedIds);
+
+    // Also update the collection if Pokemon is in it
     setCollectedPokemon(
       collectedPokemon.map((p) =>
-        p.id === pokemon.id ? { ...p, isLiked: !p.isLiked } : p
+        p.id === pokemon.id ? { ...p, isLiked: newLikedIds.has(pokemon.id) } : p
       )
     );
-    console.log("Toggling like for pokemon:", pokemon);
-  };
-
-  const handleNavigateToHome = () => {
-    setCurrentView("home");
-  };
-
-  const handleNavigateToCollection = () => {
-    setCurrentView("collection");
   };
 
   return (
-    <div className="app">
-      <Header
-        isSignedIn={isSignedIn}
-        userEmail={userEmail}
-        onSignInClick={handleSignInClick}
-        onHomeClick={handleNavigateToHome}
-        onCollectionClick={handleNavigateToCollection}
-      />
-
-      {currentView === "home" ? (
-        <Main
+    <Router>
+      <div className="app">
+        <Header
           isSignedIn={isSignedIn}
-          collectedPokemonIds={collectedPokemon.map((p) => p.id)}
-          onAddClick={handleTogglePokemon}
-          onLikeClick={handleLikePokemon}
+          userEmail={userEmail}
+          onSignInClick={handleSignInClick}
         />
-      ) : (
-        <UserCollection
-          collectedPokemon={collectedPokemon}
-          isSignedIn={isSignedIn}
-          onRemoveClick={handleRemovePokemon}
-          onLikeClick={handleLikePokemon}
-        />
-      )}
 
-      <Footer />
-      <LoginModal
-        isOpen={activeModal === "login"}
-        onClose={handleCloseModal}
-        onRegisterClick={handleSwitchToRegister}
-      />
-      <RegisterModal
-        isOpen={activeModal === "register"}
-        onClose={handleCloseModal}
-        onLoginClick={handleSwitchToLogin}
-      />
-    </div>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                isSignedIn={isSignedIn}
+                collectedPokemonIds={collectedPokemon.map((p) => p.id)}
+                likedPokemonIds={likedPokemonIds}
+                onAddClick={handleTogglePokemon}
+                onLikeClick={handleLikePokemon}
+              />
+            }
+          />
+          <Route
+            path="/collection"
+            element={
+              <ProtectedRoute isSignedIn={isSignedIn}>
+                <UserCollection
+                  collectedPokemon={collectedPokemon}
+                  isSignedIn={isSignedIn}
+                  onRemoveClick={handleRemovePokemon}
+                  onLikeClick={handleLikePokemon}
+                />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+
+        <Footer />
+
+        <LoginModal
+          isOpen={activeModal === "login"}
+          onClose={handleCloseModal}
+          onRegisterClick={handleSwitchToRegister}
+          onLogin={handleLogin}
+        />
+        <RegisterModal
+          isOpen={activeModal === "register"}
+          onClose={handleCloseModal}
+          onLoginClick={handleSwitchToLogin}
+          onRegister={handleRegister}
+        />
+      </div>
+    </Router>
   );
 }
 

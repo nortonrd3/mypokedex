@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import signInIcon from "../../assets/signin.svg";
 
-function RegisterModal({ isOpen, onClose, onLoginClick }) {
+function RegisterModal({ isOpen, onClose, onLoginClick, onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,8 +17,8 @@ function RegisterModal({ isOpen, onClose, onLoginClick }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Register:", { email, password });
-    // Handle registration logic here
-    // After successful registration, you might call onClose()
+    // Call the onRegister handler passed from App
+    onRegister(email);
   };
 
   return (

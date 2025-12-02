@@ -1,21 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import Navigation from "../Navigation/Navigation";
 import signInIcon from "../../assets/signin.svg";
 import signOutIcon from "../../assets/signout.svg";
 
-function Header({
-  isSignedIn = false,
-  userEmail = "",
-  onSignInClick,
-  onHomeClick,
-  onCollectionClick,
-}) {
+function Header({ isSignedIn = false, userEmail = "", onSignInClick }) {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    navigate("/");
+  };
+
+  const handleCollectionClick = () => {
+    navigate("/collection");
+  };
+
   return (
     <header className="header">
       <Navigation
         isSignedIn={isSignedIn}
-        onHomeClick={onHomeClick}
-        onCollectionClick={onCollectionClick}
+        onHomeClick={handleHomeClick}
+        onCollectionClick={handleCollectionClick}
       />
       <aside className="header__auth">
         {isSignedIn && <span className="header__user-email">{userEmail}</span>}

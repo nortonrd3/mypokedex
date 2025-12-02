@@ -4,7 +4,13 @@ import PokemonList from "../PokemonList/PokemonList";
 import { getRandomPokemon, searchPokemon } from "../../utils/PokeApi";
 import "./Main.css";
 
-function Main({ isSignedIn, collectedPokemonIds, onAddClick, onLikeClick }) {
+function Main({
+  isSignedIn,
+  collectedPokemonIds,
+  likedPokemonIds,
+  onAddClick,
+  onLikeClick,
+}) {
   const [allPokemon, setAllPokemon] = useState([]);
   const [displayedPokemon, setDisplayedPokemon] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,6 +70,7 @@ function Main({ isSignedIn, collectedPokemonIds, onAddClick, onLikeClick }) {
         isLoading={isLoading}
         isSignedIn={isSignedIn}
         collectedPokemonIds={collectedPokemonIds}
+        likedPokemonIds={likedPokemonIds}
         onAddClick={onAddClick}
         onLikeClick={onLikeClick}
       />

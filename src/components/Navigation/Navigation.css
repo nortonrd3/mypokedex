@@ -12,6 +12,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.navigation__logo:hover {
+  opacity: 0.8;
 }
 
 .navigation__button {
