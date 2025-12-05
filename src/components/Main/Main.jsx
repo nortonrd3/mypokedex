@@ -14,7 +14,6 @@ function Main({
   const [allPokemon, setAllPokemon] = useState([]);
   const [displayedPokemon, setDisplayedPokemon] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch 20 random Pokemon on mount
   useEffect(() => {
@@ -33,8 +32,6 @@ function Main({
   }, []);
 
   const handleSearch = (query) => {
-    setSearchQuery(query);
-
     if (!query.trim()) {
       setDisplayedPokemon(allPokemon);
       return;

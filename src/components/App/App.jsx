@@ -21,7 +21,6 @@ import "./App.css";
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [collectedPokemon, setCollectedPokemon] = useState([]);
   const [likedPokemonIds, setLikedPokemonIds] = useState(new Set());
@@ -36,7 +35,6 @@ function App() {
         .then((user) => {
           setIsSignedIn(true);
           setUserEmail(user.email);
-          setCurrentUser(user);
 
           // Load user's collection
           return getCollection();
@@ -79,7 +77,6 @@ function App() {
           localStorage.removeItem("userData");
           setIsSignedIn(false);
           setUserEmail("");
-          setCurrentUser(null);
 
           // Clear collection from backend
           return clearCollection();
@@ -102,7 +99,6 @@ function App() {
         localStorage.setItem("token", response.token);
         setIsSignedIn(true);
         setUserEmail(response.user.email);
-        setCurrentUser(response.user);
         handleCloseModal();
 
         // Load user's collection
@@ -124,7 +120,6 @@ function App() {
         localStorage.setItem("token", response.token);
         setIsSignedIn(true);
         setUserEmail(response.user.email);
-        setCurrentUser(response.user);
         handleCloseModal();
       })
       .catch((err) => {

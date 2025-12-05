@@ -1,6 +1,6 @@
 // Simulate user registration
-export const register = (email, password) => {
-  return new Promise((resolve, reject) => {
+export const register = (email) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       // Store user data in localStorage for persistence
       const userData = {
@@ -21,16 +21,15 @@ export const register = (email, password) => {
 };
 
 // Simulate user login
-export const authorize = (email, password) => {
+export const authorize = (email) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       // Simulate validation
-      if (!email || !password) {
-        reject({ message: "Email and password are required" });
+      if (!email) {
+        reject({ message: "Email is required" });
         return;
       }
 
-    
       const userData = {
         _id: "user-" + Date.now(),
         email: email,
@@ -68,7 +67,7 @@ export const checkToken = (token) => {
       try {
         const userData = JSON.parse(userDataString);
         resolve(userData);
-      } catch (error) {
+      } catch {
         reject({ message: "Invalid user data" });
       }
     }, 300);
