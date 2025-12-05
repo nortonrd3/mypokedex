@@ -85,17 +85,21 @@
   z-index: -1;
 }
 
-/* Regular buttons hover with gradient */
 .navigation__button:not(.navigation__button--collection):hover::before {
   opacity: 1;
 }
 
-/* Collection button hover with gray */
 .navigation__button--collection:hover::before {
   opacity: 1;
 }
 
-@media (max-width: 840px) {
+@media (max-width: 900px) {
+  .navigation {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1024px) {
   .navigation {
     gap: 0.75rem;
   }
@@ -117,87 +121,7 @@
   }
 }
 
-@media (max-width: 720px) {
-  .navigation__button--collection span {
-    display: none;
-  }
-
-  .navigation__button--collection {
-    gap: 0;
-    justify-content: center;
-    padding: 0.5rem;
-    min-width: 44px;
-  }
-}
-
-@media (max-width: 480px) {
-  .navigation {
-    gap: 0.5rem;
-  }
-
-  .navigation__logo {
-    font-size: 1.2rem;
-  }
-
-  .navigation__button {
-    padding: 0.5rem 0.75rem;
-    font-size: 14px;
-    min-width: 60px;
-    height: 36px;
-    gap: 0.25rem;
-  }
-
-  .navigation__button-icon {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-@media (max-width: 375px) {
-  .navigation {
-    gap: 0.25rem;
-  }
-
-  .navigation__logo {
-    font-size: 1rem;
-  }
-
-  .navigation__button {
-    padding: 0.5rem;
-    font-size: 12px;
-    min-width: 40px;
-    height: 32px;
-    gap: 0;
-    justify-content: center;
-  }
-
-  .navigation__button span {
-    display: none;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .navigation {
-    gap: 0.75rem;
-  }
-
-  .navigation__logo {
-    font-size: 1.35rem;
-  }
-
-  .navigation__button {
-    padding: 0.625rem 1.25rem;
-    font-size: 15px;
-    height: 40px;
-  }
-
-  .navigation__button-icon {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-@media (min-width: 769px) {
+@media (min-width: 1025px) {
   .navigation {
     gap: 1.5rem;
   }
