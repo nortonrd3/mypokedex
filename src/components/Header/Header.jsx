@@ -48,7 +48,7 @@ function Header({ isSignedIn = false, userEmail = "", onSignInClick }) {
           onHomeClick={handleHomeClick}
           onCollectionClick={handleCollectionClick}
         />
-        <aside className="header__auth">
+        <div className="header__auth">
           {isSignedIn && (
             <span className="header__user-email">{userEmail}</span>
           )}
@@ -60,7 +60,7 @@ function Header({ isSignedIn = false, userEmail = "", onSignInClick }) {
             />
             <span>{isSignedIn ? "Sign Out" : "Sign In"}</span>
           </button>
-        </aside>
+        </div>
       </header>
 
       <Sidebar

@@ -47,7 +47,7 @@ function UserCollection({
         </div>
       </section>
 
-      <div className="user-collection">
+      <section className="user-collection">
         <div className="user-collection__controls">
           <button
             className={`user-collection__filter-button ${
@@ -84,7 +84,7 @@ function UserCollection({
             onLikeClick={onLikeClick}
           />
         )}
-      </div>
+      </section>
     </main>
   );
 }
