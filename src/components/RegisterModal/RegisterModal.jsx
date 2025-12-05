@@ -130,6 +130,7 @@ function RegisterModal({ isOpen, onClose, onLoginClick, onRegister }) {
       linkText="Already have an account? Sign in"
       onLinkClick={onLoginClick}
       icon={signInIcon}
+      iconAlt="Create account"
       isSubmitDisabled={!isFormValid}
     >
       <div className="modal__input-wrapper">

@@ -89,6 +89,7 @@ function LoginModal({ isOpen, onClose, onRegisterClick, onLogin }) {
       linkText="Don't have an account? Sign up"
       onLinkClick={onRegisterClick}
       icon={signInIcon}
+      iconAlt="Sign in"
       isSubmitDisabled={!isFormValid}
     >
       <div className="modal__input-wrapper">

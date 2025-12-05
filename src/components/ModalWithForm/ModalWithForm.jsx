@@ -12,6 +12,7 @@ function ModalWithForm({
   onLinkClick,
   children,
   icon,
+  iconAlt = "Modal icon",
   isSubmitDisabled = false,
 }) {
   useEffect(() => {
@@ -49,7 +50,7 @@ function ModalWithForm({
         </button>
 
         <div className="modal__icon-wrapper">
-          <img src={icon} alt="" className="modal__icon" />
+          <img src={icon} alt={iconAlt} className="modal__icon" />
         </div>
 
         <h2 className="modal__title">{title}</h2>
