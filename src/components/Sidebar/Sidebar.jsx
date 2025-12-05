@@ -4,6 +4,7 @@ import "./Sidebar.css";
 import closeIcon from "../../assets/close-icon.svg";
 import homeIcon from "../../assets/home-icon.svg";
 import collectionIcon from "../../assets/collection-icon.svg";
+import signInIcon from "../../assets/signin.svg";
 import signOutIcon from "../../assets/signout.svg";
 
 function Sidebar({ isOpen, onClose, isSignedIn, userEmail, onSignOut }) {
@@ -38,7 +39,7 @@ function Sidebar({ isOpen, onClose, isSignedIn, userEmail, onSignOut }) {
     onClose();
   };
 
-  const handleSignOut = () => {
+  const handleSignInOut = () => {
     onSignOut();
     onClose();
   };
@@ -74,7 +75,7 @@ function Sidebar({ isOpen, onClose, isSignedIn, userEmail, onSignOut }) {
             <span>Home</span>
           </button>
 
-          {isSignedIn && (
+          {isSignedIn ? (
             <>
               <button
                 className="sidebar__nav-button"
@@ -90,7 +91,7 @@ function Sidebar({ isOpen, onClose, isSignedIn, userEmail, onSignOut }) {
 
               <button
                 className="sidebar__nav-button sidebar__nav-button--signout"
-                onClick={handleSignOut}
+                onClick={handleSignInOut}
               >
                 <img
                   src={signOutIcon}
@@ -100,6 +101,18 @@ function Sidebar({ isOpen, onClose, isSignedIn, userEmail, onSignOut }) {
                 <span>Sign Out</span>
               </button>
             </>
+          ) : (
+            <button
+              className="sidebar__nav-button sidebar__nav-button--signin"
+              onClick={handleSignInOut}
+            >
+              <img
+                src={signInIcon}
+                alt="Sign In"
+                className="sidebar__nav-button-icon"
+              />
+              <span>Sign In</span>
+            </button>
           )}
         </nav>
       </div>
