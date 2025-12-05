@@ -12,6 +12,7 @@ function ModalWithForm({
   onLinkClick,
   children,
   icon,
+  isSubmitDisabled = false,
 }) {
   useEffect(() => {
     if (!isOpen) return;
@@ -57,7 +58,11 @@ function ModalWithForm({
         <form className="modal__form" onSubmit={onSubmit}>
           {children}
 
-          <button type="submit" className="modal__submit">
+          <button
+            type="submit"
+            className="modal__submit"
+            disabled={isSubmitDisabled}
+          >
             {buttonText}
           </button>
         </form>
