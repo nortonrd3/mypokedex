@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 1600px;
   padding: 0 1rem 2rem 1rem;
+  overflow-x: hidden;
 }
 
 .user-collection__controls {
@@ -82,6 +83,7 @@
     gap: 1rem;
     align-items: stretch;
     margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
   }
 
   .user-collection__filter-button {
@@ -115,6 +117,7 @@
 
   .user-collection__controls {
     margin-bottom: 1rem;
+    padding: 0 0.25rem;
   }
 
   .user-collection__filter-button {
@@ -143,7 +146,21 @@
   }
 }
 
+@media (max-width: 450px) {
+  .user-collection {
+    padding: 0 0.75rem 1rem 0.75rem;
+  }
+
+  .user-collection__controls {
+    padding: 0;
+  }
+}
+
 @media (max-width: 375px) {
+  .user-collection {
+    padding: 0 0.5rem 0.75rem 0.5rem;
+  }
+
   .user-collection__filter-button {
     padding: 0.5rem 0.75rem;
     font-size: 0.8125rem;
