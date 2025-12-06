@@ -1,0 +1,144 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navigation__logo {
+  font-family: "InterTight-SemiBold", "Helvetica Neue", sans-serif;
+  font-size: 1.5rem;
+  margin: 0;
+  background: linear-gradient(90deg, #007bff 0%, #00bcd4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.navigation__logo:hover {
+  opacity: 0.8;
+}
+
+.navigation__button {
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #007bff 0%, #00bcd4 100%);
+  color: white;
+  font-family: "Poppins-Regular", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  min-width: 80px;
+  height: 44px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.navigation__button--collection {
+  background: white;
+  color: #333;
+  border: none;
+}
+
+.navigation__button--collection .navigation__button-icon {
+  filter: brightness(0);
+}
+
+.navigation__button-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+.navigation__button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #0056b3 0%, #0097a7 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+  border-radius: 8px;
+  z-index: -1;
+}
+
+.navigation__button--collection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f0f0f0;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+  border-radius: 8px;
+  z-index: -1;
+}
+
+.navigation__button:not(.navigation__button--collection):hover::before {
+  opacity: 1;
+}
+
+.navigation__button--collection:hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .navigation {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1024px) {
+  .navigation {
+    gap: 0.75rem;
+  }
+
+  .navigation__logo {
+    font-size: 1.35rem;
+  }
+
+  .navigation__button {
+    padding: 0.625rem 1rem;
+    font-size: 15px;
+    min-width: 70px;
+    height: 40px;
+  }
+
+  .navigation__button-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .navigation {
+    gap: 1.5rem;
+  }
+
+  .navigation__logo {
+    font-size: 1.75rem;
+  }
+
+  .navigation__button {
+    padding: 0.875rem 1.75rem;
+    font-size: 16px;
+    min-width: 100px;
+    height: 48px;
+  }
+
+  .navigation__button-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
